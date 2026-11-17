@@ -1,0 +1,6 @@
+motion-test/out/
+motion-test/stills/
+motion-test/stills2/
+motion-test/*.jpg
+motion-test/*.png
+node_modules/

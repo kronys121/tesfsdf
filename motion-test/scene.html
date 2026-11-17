@@ -1,0 +1,193 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Apollo test</title>
+<style>
+@font-face{font-family:M;src:url(fonts/Montserrat-500.ttf);font-weight:500}
+@font-face{font-family:M;src:url(fonts/Montserrat-700.ttf);font-weight:700}
+@font-face{font-family:M;src:url(fonts/Montserrat-800.ttf);font-weight:800}
+@font-face{font-family:M;src:url(fonts/Montserrat-900.ttf);font-weight:900}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#000}
+#stage{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;perspective:1200px;font-family:M,sans-serif;background:#f3f2f6}
+.world{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-style:preserve-3d;transform-origin:50% 50%}
+.o{position:absolute;left:50%;top:50%;transform-origin:50% 50%}
+.txt{white-space:nowrap;font-weight:800;color:#141418;letter-spacing:.01em}
+.ch{display:inline-block;white-space:pre}
+.ov{position:absolute;inset:0;pointer-events:none}
+#space{background:radial-gradient(ellipse at 60% 40%,#1b2140 0%,#0a0c18 55%,#030409 100%)}
+#bgplane{width:5600px;height:3400px;
+ background:
+  radial-gradient(ellipse at 50% 50%,rgba(255,255,255,.9) 0%,rgba(255,255,255,0) 45%),
+  repeating-linear-gradient(0deg,rgba(60,60,90,.07) 0 2px,transparent 2px 120px),
+  repeating-linear-gradient(90deg,rgba(60,60,90,.07) 0 2px,transparent 2px 120px),
+  linear-gradient(180deg,#efe9f3 0%,#f6f5f8 40%,#eceaf2 100%)}
+.shadow{background:radial-gradient(ellipse at 50% 50%,rgba(20,20,40,.35) 0%,rgba(20,20,40,0) 70%);width:520px;height:70px}
+.chip{background:#fff;border-radius:22px;box-shadow:0 18px 40px rgba(30,30,60,.18),0 2px 6px rgba(30,30,60,.12);padding:22px 34px 22px 26px;display:flex;align-items:center;gap:20px;font-weight:800;font-size:38px;color:#16161c;white-space:nowrap}
+.card{width:1280px;height:720px;border-radius:44px;overflow:hidden;box-shadow:0 50px 90px rgba(20,20,50,.35),0 8px 20px rgba(20,20,50,.2);background:#000}
+.ul{height:12px;background:#e3262f;border-radius:6px;transform-origin:0 50%}
+</style></head>
+<body>
+<div id="stage">
+ <!-- ===================== SPACE WORLD ===================== -->
+ <div id="space" class="ov">
+  <div id="spw" class="world">
+   <canvas id="stars" class="o" width="2600" height="1600"></canvas>
+   <div id="moon" class="o">
+    <svg width="1100" height="1100" viewBox="0 0 1100 1100">
+     <defs>
+      <radialGradient id="mg" cx="38%" cy="35%" r="70%"><stop offset="0" stop-color="#f4f1ea"/><stop offset=".55" stop-color="#bdb8ae"/><stop offset=".85" stop-color="#5d5a57"/><stop offset="1" stop-color="#26252a"/></radialGradient>
+      <radialGradient id="cr" cx="45%" cy="40%" r="60%"><stop offset="0" stop-color="#8e8a83"/><stop offset=".8" stop-color="#a7a29a"/><stop offset="1" stop-color="#d9d4ca"/></radialGradient>
+      <radialGradient id="glow" cx="50%" cy="50%" r="50%"><stop offset=".86" stop-color="rgba(200,210,255,.25)"/><stop offset="1" stop-color="rgba(200,210,255,0)"/></radialGradient>
+      <clipPath id="mc"><circle cx="550" cy="550" r="470"/></clipPath>
+     </defs>
+     <circle cx="550" cy="550" r="545" fill="url(#glow)"/>
+     <circle cx="550" cy="550" r="470" fill="url(#mg)"/>
+     <g clip-path="url(#mc)" opacity=".75">
+      <ellipse cx="420" cy="380" rx="120" ry="95" fill="#8f8b85" opacity=".55"/>
+      <ellipse cx="640" cy="560" rx="170" ry="120" fill="#8a8680" opacity=".45"/>
+      <ellipse cx="470" cy="690" rx="90" ry="70" fill="#8f8b85" opacity=".5"/>
+      <circle cx="350" cy="520" r="38" fill="url(#cr)"/>
+      <circle cx="560" cy="300" r="26" fill="url(#cr)"/>
+      <circle cx="720" cy="390" r="44" fill="url(#cr)"/>
+      <circle cx="610" cy="780" r="30" fill="url(#cr)"/>
+      <circle cx="300" cy="700" r="22" fill="url(#cr)"/>
+      <circle cx="790" cy="660" r="18" fill="url(#cr)"/>
+      <circle cx="450" cy="470" r="14" fill="url(#cr)"/>
+      <circle cx="830" cy="520" r="28" fill="url(#cr)"/>
+     </g>
+     <circle cx="550" cy="550" r="470" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="3"/>
+    </svg>
+   </div>
+   <div id="y1969" class="o txt" style="font-size:300px;font-weight:900;color:#fff;letter-spacing:.02em;text-shadow:0 20px 60px rgba(0,0,0,.6)"></div>
+   <div id="hook" class="o txt" style="font-size:58px;font-weight:800;color:#fff"></div>
+  </div>
+ </div>
+
+ <!-- ===================== STUDIO WORLD ===================== -->
+ <div id="studio" class="ov" style="opacity:0">
+  <div id="sw" class="world">
+   <div id="bgplane" class="o"></div>
+   <div id="sil" class="o">
+    <svg width="2400" height="700" viewBox="0 0 2400 700" fill="#d9d6e2">
+     <!-- launch tower -->
+     <rect x="180" y="80" width="70" height="620"/><rect x="160" y="60" width="110" height="30"/>
+     <g stroke="#d9d6e2" stroke-width="10"><path d="M180 140 L250 220 M250 140 L180 220 M180 260 L250 340 M250 260 L180 340 M180 380 L250 460 M250 380 L180 460 M180 500 L250 580 M250 500 L180 580"/></g>
+     <!-- rocket -->
+     <path d="M330 700 L330 200 Q360 90 390 200 L390 700 Z"/><rect x="315" y="600" width="90" height="100"/>
+     <!-- dish -->
+     <path d="M1880 420 A190 190 0 0 1 2240 420 Z" transform="rotate(-20 2060 420)"/><rect x="2040" y="430" width="40" height="270"/><rect x="1980" y="660" width="160" height="40"/>
+     <!-- hills -->
+     <path d="M0 700 Q300 600 600 650 T1200 640 T1800 660 T2400 630 L2400 700 Z"/>
+     <rect x="1450" y="380" width="120" height="320" rx="8"/><rect x="1590" y="460" width="90" height="240" rx="8"/>
+    </svg>
+   </div>
+
+   <!-- AGC -->
+   <div id="agcShadow" class="o shadow"></div>
+   <div id="agc" class="o">
+    <svg id="agcSvg" width="560" height="560" viewBox="0 0 560 560">
+     <defs>
+      <linearGradient id="bodyG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6d7178"/><stop offset=".5" stop-color="#4a4e55"/><stop offset="1" stop-color="#33363c"/></linearGradient>
+      <linearGradient id="sideG" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2d3035"/><stop offset="1" stop-color="#1f2125"/></linearGradient>
+      <linearGradient id="topG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9aa0a8"/><stop offset="1" stop-color="#7b8189"/></linearGradient>
+      <linearGradient id="keyG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f2f0ea"/><stop offset="1" stop-color="#c9c5bc"/></linearGradient>
+      <linearGradient id="dispG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d1a10"/><stop offset="1" stop-color="#061009"/></linearGradient>
+      <filter id="gl"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+     </defs>
+     <g id="agcSolid">
+      <path d="M40 70 L470 70 L520 30 L90 30 Z" fill="url(#topG)"/>
+      <path d="M470 70 L520 30 L520 500 L470 540 Z" fill="url(#sideG)"/>
+      <rect x="40" y="70" width="430" height="470" rx="10" fill="url(#bodyG)"/>
+      <rect x="58" y="88" width="394" height="434" rx="8" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="2"/>
+      <!-- display -->
+      <rect x="78" y="104" width="354" height="176" rx="8" fill="#1a1d21"/>
+      <rect x="88" y="114" width="334" height="156" rx="5" fill="url(#dispG)"/>
+      <g fill="#59ff7a" filter="url(#gl)" font-family="DejaVu Sans Mono,monospace" font-weight="700">
+       <text x="102" y="142" font-size="16" fill="#8aa88f">PROG</text><text id="dProg" x="102" y="178" font-size="36">63</text>
+       <text x="232" y="142" font-size="16" fill="#8aa88f">VERB</text><text x="232" y="178" font-size="36">16</text>
+       <text x="328" y="142" font-size="16" fill="#8aa88f">NOUN</text><text x="328" y="178" font-size="36">68</text>
+       <text id="dR1" x="104" y="222" font-size="34">+04512</text>
+       <text id="dR2" x="104" y="258" font-size="34">-00097</text>
+       <text id="dR3" x="264" y="240" font-size="34">+18430</text>
+      </g>
+      <!-- keypad -->
+      <g id="keys" font-family="M" font-weight="800" font-size="16" text-anchor="middle" fill="#2b2b2b"></g>
+      <rect x="40" y="70" width="430" height="10" fill="rgba(255,255,255,.15)"/>
+     </g>
+     <g id="agcWire" fill="none" stroke="#3b6cff" stroke-width="2.4">
+      <path d="M40 70 L470 70 L520 30 L90 30 Z"/><path d="M470 70 L520 30 L520 500 L470 540"/>
+      <rect x="40" y="70" width="430" height="470" rx="10"/><rect x="78" y="104" width="354" height="176" rx="8"/>
+      <g id="wkeys"></g>
+      <g stroke-width="1" opacity=".5"><path d="M40 170 H470 M40 290 H470 M40 410 H470 M150 70 V540 M255 70 V540 M360 70 V540"/></g>
+     </g>
+    </svg>
+   </div>
+   <div id="agcLabel" class="o txt" style="font-size:34px;font-weight:700;color:#55535f;letter-spacing:.06em"></div>
+
+   <div id="stKB" class="o"><div class="txt" style="font-size:120px;font-weight:900">4 КБ</div><div class="txt" style="font-size:40px;font-weight:700;color:#55535f;margin-top:-6px">памяти</div><div id="stKBul" class="ul" style="width:290px;margin-top:14px"></div></div>
+   <div id="stKG" class="o chip"><svg width="64" height="64" viewBox="0 0 64 64"><path d="M22 18 a10 10 0 0 1 20 0" fill="none" stroke="#16161c" stroke-width="6"/><path d="M12 24 H52 L58 58 H6 Z" fill="#16161c"/><text x="32" y="50" fill="#fff" font-family="M" font-weight="900" font-size="15" text-anchor="middle">KG</text></svg><span>32 кг</span></div>
+
+   <!-- PHONE -->
+   <div id="phoneShadow" class="o shadow" style="width:360px"></div>
+   <div id="phone" class="o">
+    <svg width="300" height="600" viewBox="0 0 300 600">
+     <defs>
+      <linearGradient id="scrG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff5a6e"/><stop offset=".45" stop-color="#7b5cff"/><stop offset="1" stop-color="#1fb6ff"/></linearGradient>
+      <linearGradient id="frameG" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5a5d66"/><stop offset=".5" stop-color="#c9ccd4"/><stop offset="1" stop-color="#4a4d55"/></linearGradient>
+      <linearGradient id="gloss" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="rgba(255,255,255,.35)"/><stop offset=".4" stop-color="rgba(255,255,255,0)"/></linearGradient>
+     </defs>
+     <rect x="14" y="6" width="280" height="588" rx="48" fill="#222"/>
+     <rect x="6" y="6" width="280" height="588" rx="48" fill="url(#frameG)"/>
+     <rect x="14" y="14" width="264" height="572" rx="40" fill="#0b0b0e"/>
+     <rect x="24" y="24" width="244" height="552" rx="32" fill="url(#scrG)"/>
+     <rect x="106" y="38" width="80" height="22" rx="11" fill="#0b0b0e"/>
+     <g fill="rgba(255,255,255,.88)">
+      <rect x="44" y="110" width="44" height="44" rx="12"/><rect x="104" y="110" width="44" height="44" rx="12"/><rect x="164" y="110" width="44" height="44" rx="12"/><rect x="224" y="110" width="28" height="44" rx="10" opacity=".0"/>
+      <rect x="44" y="176" width="44" height="44" rx="12"/><rect x="104" y="176" width="44" height="44" rx="12"/><rect x="164" y="176" width="44" height="44" rx="12"/>
+      <rect x="44" y="242" width="44" height="44" rx="12"/><rect x="104" y="242" width="44" height="44" rx="12"/>
+      <rect x="44" y="500" width="204" height="52" rx="22" opacity=".35"/>
+     </g>
+     <text x="146" y="420" fill="#fff" font-family="M" font-weight="800" font-size="56" text-anchor="middle">20:69</text>
+     <rect x="24" y="24" width="244" height="552" rx="32" fill="url(#gloss)"/>
+    </svg>
+   </div>
+   <div id="phoneLabel" class="o txt" style="font-size:34px;font-weight:700;color:#55535f;letter-spacing:.06em"></div>
+   <div id="stGB" class="o"><div class="txt" style="font-size:120px;font-weight:900"><span id="gbNum">0</span> ГБ</div><div class="txt" style="font-size:40px;font-weight:700;color:#55535f;margin-top:-6px">памяти</div><div id="stGBul" class="ul" style="width:290px;margin-top:14px"></div></div>
+
+   <div id="mult" class="o txt" style="font-size:150px;font-weight:900;color:#e3262f"></div>
+   <div id="multCap" class="o txt" style="font-size:40px;font-weight:700;color:#55535f"></div>
+
+   <!-- LUNAR CARD -->
+   <div id="card" class="o card"><canvas id="lunar" width="1280" height="720"></canvas><div id="cardFlash" class="ov" style="background:#e3262f;opacity:0;mix-blend-mode:screen"></div></div>
+   <div id="alarm" class="o txt" style="font-size:230px;font-weight:900;color:#e3262f;text-shadow:0 18px 50px rgba(227,38,47,.35)"></div>
+   <div id="alarmCap" class="o txt" style="font-size:56px;font-weight:900;color:#141418;letter-spacing:.12em"></div>
+
+   <!-- TASKS -->
+   <div id="tHead" class="o txt" style="font-size:72px;font-weight:900"></div>
+   <div id="t1" class="o chip"><svg width="52" height="52" viewBox="0 0 52 52"><circle cx="26" cy="26" r="22" fill="none" stroke="#16161c" stroke-width="5"/><path d="M26 8 L32 26 L26 44 L20 26 Z" fill="#e3262f"/><circle cx="26" cy="26" r="4" fill="#fff"/></svg><span>Навигация</span><svg class="ok" width="46" height="46" viewBox="0 0 46 46"><circle cx="23" cy="23" r="21" fill="#21b35a"/><path d="M12 24 L20 32 L35 15" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+   <div id="t2" class="o chip"><svg width="52" height="52" viewBox="0 0 52 52"><path d="M26 4 C34 16 40 22 40 32 a14 14 0 0 1 -28 0 C12 24 18 20 20 12 C23 18 26 20 26 4Z" fill="#ff7a1a"/><path d="M26 22 C30 28 32 31 32 35 a6 6 0 0 1 -12 0 C20 31 23 28 26 22Z" fill="#ffd23f"/></svg><span>Двигатель</span><svg class="ok" width="46" height="46" viewBox="0 0 46 46"><circle cx="23" cy="23" r="21" fill="#21b35a"/><path d="M12 24 L20 32 L35 15" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+   <div id="t3" class="o chip"><svg width="52" height="52" viewBox="0 0 52 52"><circle cx="12" cy="26" r="6" fill="#9a98a6"/><circle cx="26" cy="26" r="6" fill="#9a98a6"/><circle cx="40" cy="26" r="6" fill="#9a98a6"/></svg><span>Второстепенное</span>
+    <svg id="xmark" style="position:absolute;left:-20px;top:-26px" width="440" height="150" viewBox="0 0 440 150"><path id="x1" d="M30 20 L410 130" stroke="#e3262f" stroke-width="16" stroke-linecap="round" fill="none"/><path id="x2" d="M410 20 L30 130" stroke="#e3262f" stroke-width="16" stroke-linecap="round" fill="none"/></svg></div>
+   <div id="ring" class="o">
+    <svg width="300" height="300" viewBox="0 0 300 300"><circle cx="150" cy="150" r="128" fill="#fff" stroke="#e6e4ec" stroke-width="22"/><circle id="ringArc" cx="150" cy="150" r="128" fill="none" stroke="#21b35a" stroke-width="22" stroke-linecap="round" transform="rotate(-90 150 150)" stroke-dasharray="804.25" stroke-dashoffset="804.25"/><text id="ringTxt" x="150" y="168" text-anchor="middle" font-family="M" font-weight="900" font-size="64" fill="#141418">0%</text></svg>
+   </div>
+   <div id="ringCap" class="o txt" style="font-size:40px;font-weight:900;letter-spacing:.1em"></div>
+   <div id="ringDate" class="o txt" style="font-size:32px;font-weight:700;color:#55535f"></div>
+  </div>
+ </div>
+
+ <!-- ===================== FINAL (screen space 3D) ===================== -->
+ <div id="final" class="ov" style="perspective:1200px">
+  <div id="fw" class="world">
+   <div id="f1" class="o txt" style="font-size:112px;font-weight:900"></div>
+   <div id="f2" class="o txt" style="font-size:112px;font-weight:900"></div>
+   <div id="f2ul" class="o ul" style="width:660px;transform-origin:50% 50%"></div>
+  </div>
+ </div>
+
+ <canvas id="grain" class="ov" width="960" height="540" style="width:1920px;height:1080px;opacity:.05;mix-blend-mode:multiply"></canvas>
+ <div id="vig" class="ov" style="background:radial-gradient(ellipse at 50% 45%,rgba(0,0,0,0) 55%,rgba(40,30,70,.22) 100%)"></div>
+ <div id="flash" class="ov" style="background:#fff;opacity:0"></div>
+ <div id="dispFill" class="ov" style="background:radial-gradient(ellipse at 50% 50%,#103b1b 0%,#06120a 70%);opacity:0"></div>
+ <div id="black" class="ov" style="background:#000;opacity:1"></div>
+</div>
+<script src="scene.js"></script>
+</body></html>
