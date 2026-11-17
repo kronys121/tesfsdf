@@ -382,7 +382,7 @@ window.render = function (t, frame = 0) {
     place($('card'), {
       x: CX + lerp(0, -430, toTask) + shake * 14, y: CY + lerp(0, 30, toTask) + Math.sin(t * .9) * 6 * cu - shake * 6, z: lerp(0, -40, toTask),
       s: lerp(1, .64, toTask), ry: lerp(0, -13, cu) + lerp(0, 5, toTask) + Math.sin(t * .45) * 2 * cu, rx: lerp(0, 5, cu) + Math.sin(t * .6) * 1.2 * cu, rz: lerp(0, -1.5, cu) + shake * 1.5,
-      op: cardOn ? 1 : 0, blur: outF * 22
+      op: cardOn ? 1 - outF : 0, blur: outF * 22
     });
     const fl = t >= 19.0 ? Math.max(0, wob(t - 19.0, 0, 3.5)) * .32 * (Math.cos((t - 19.0) * Math.PI * 4) * .5 + .5) : 0;
     $('cardFlash').style.opacity = fl.toFixed(3);
@@ -393,7 +393,7 @@ window.render = function (t, frame = 0) {
 
     // ---------- TASKS ----------
     const RX = CX + 450;
-    place($('tHead'), { x: RX - 10, y: CY - 330, z: 60, op: (t > 21.9 && t < 27.6) ? 1 : 0, blur: outF * 10 });
+    place($('tHead'), { x: RX - 10, y: CY - 330, z: 60, op: (t > 21.9 && t < 27.6) ? 1 - outF : 0, blur: outF * 10 });
     letters($('tHead'), t, 22.0, .5, .025);
     const chipY = [-190, -50, 90];
     ['t1', 't2', 't3'].forEach((id, i) => {
@@ -414,16 +414,16 @@ window.render = function (t, frame = 0) {
         ok.style.opacity = cl(ou * 3).toFixed(3);
         y += lerp(0, 20, eio(seg(t, 24.1, 24.6)));
       }
-      place($(id), { x, y: y + Math.sin(t * 1.4 + i) * 3, z: 40, rz, s: 1.22, op: (t > 27.6 ? 0 : op), blur: bl + outF * 10 });
+      place($(id), { x, y: y + Math.sin(t * 1.4 + i) * 3, z: 40, rz, s: 1.22, op: (t > 27.6 ? 0 : op * (1 - outF)), blur: bl + outF * 10 });
     });
     const rIn = seg(t, 24.3, 24.75);
-    place($('ring'), { x: RX - 10, y: CY + 190, z: 50, s: back(rIn, 1.8) * .78, rz: lerp(-30, 0, eoc(rIn)), op: (t > 27.6 ? 0 : cl(rIn * 3)), blur: outF * 10 });
+    place($('ring'), { x: RX - 10, y: CY + 190, z: 50, s: back(rIn, 1.8) * .78, rz: lerp(-30, 0, eoc(rIn)), op: (t > 27.6 ? 0 : cl(rIn * 3) * (1 - outF)), blur: outF * 10 });
     const pr = eio2(seg(t, 24.5, 25.7));
     $('ringArc').style.strokeDashoffset = (804.25 * (1 - pr)).toFixed(2);
     $('ringTxt').textContent = Math.round(pr * 100) + '%';
-    place($('ringCap'), { x: RX - 10, y: CY + 345, z: 50, op: (t > 25.4 && t < 27.6) ? 1 : 0, blur: outF * 10 });
+    place($('ringCap'), { x: RX - 10, y: CY + 345, z: 50, op: (t > 25.4 && t < 27.6) ? 1 - outF : 0, blur: outF * 10 });
     letters($('ringCap'), t, 25.55, .4, .03);
-    place($('ringDate'), { x: RX - 10, y: CY + 392, z: 50, op: (t > 25.7 && t < 27.6) ? 1 : 0, blur: outF * 10 });
+    place($('ringDate'), { x: RX - 10, y: CY + 392, z: 50, op: (t > 25.7 && t < 27.6) ? 1 - outF : 0, blur: outF * 10 });
     letters($('ringDate'), t, 25.8, .4, .02);
   }
 
