@@ -78,8 +78,8 @@ function spline(keys, t, prop) {
 const camAt = (keys, t) => ({ x: spline(keys, t, 'x'), y: spline(keys, t, 'y'), z: spline(keys, t, 'z'), roll: spline(keys, t, 'roll'), yaw: spline(keys, t, 'yaw') });
 
 // ---------- layout constants ----------
-const AGC0 = { x: -330, y: 40 }, AGCC = { x: -600, y: -40, s: .78 };
-const PH0 = { x: 760, y: 20 }, PHC = { x: 600, y: -40, s: .82 };
+const AGC0 = { x: -330, y: 40 }, AGCC = { x: -690, y: -40, s: .78 };
+const PH0 = { x: 760, y: 20 }, PHC = { x: 690, y: -40, s: .82 };
 const CX = 0, CY = 3200; // lunar-card region of the studio world
 const DISP = { dx: -25, dy: -88 }; // display centre offset inside AGC svg (unscaled)
 
@@ -89,14 +89,14 @@ const spaceKeys = [
   { t: 3.35, x: 30, y: -10, z: 70, roll: 1.2, yaw: -1 },
 ];
 const studioKeys = [
-  { t: 3.75, x: -150, y: 40, z: -90, roll: 2, yaw: 1.5 },
-  { t: 5.2, x: -110, y: 20, z: -20, roll: .8, yaw: .8 },
-  { t: 7.6, x: -20, y: 0, z: 70, roll: -.4, yaw: -.4 },
-  { t: 9.7, x: 60, y: -10, z: 110, roll: -1, yaw: -1 },
-  { t: 10.45, x: 640, y: 0, z: 90, roll: -2.2, yaw: -2 },
-  { t: 11.7, x: 760, y: 10, z: 130, roll: -.6, yaw: -.8 },
-  { t: 12.8, x: 20, y: 40, z: -250, roll: .3, yaw: 0 },
-  { t: 14.75, x: -40, y: 30, z: -190, roll: .8, yaw: .6 },
+  { t: 3.75, x: -170, y: 40, z: -20, roll: 2, yaw: 1.5 },
+  { t: 5.2, x: -120, y: 20, z: 90, roll: .8, yaw: .8 },
+  { t: 7.6, x: -30, y: 0, z: 170, roll: -.4, yaw: -.4 },
+  { t: 9.7, x: 50, y: -10, z: 210, roll: -1, yaw: -1 },
+  { t: 10.45, x: 640, y: 0, z: 160, roll: -2.2, yaw: -2 },
+  { t: 11.7, x: 790, y: 10, z: 210, roll: -.6, yaw: -.8 },
+  { t: 12.8, x: 0, y: 50, z: -230, roll: .3, yaw: 0 },
+  { t: 14.75, x: -40, y: 40, z: -170, roll: .8, yaw: .6 },
 ];
 const cardKeys = [
   { t: 18.0, x: CX - 20, y: CY + 10, z: -30, roll: -.8, yaw: 0 },
@@ -118,11 +118,11 @@ function studioCam(t) {
     const u = eic(seg(t, 14.75, 16.0));
     const tx = AGCC.x + DISP.dx * AGCC.s, ty = AGCC.y + DISP.dy * AGCC.s;
     const ux = eio2(seg(t, 14.75, 15.7));
-    return { x: lerp(a.x, tx, ux), y: lerp(a.y, ty, ux), z: lerp(a.z, 1060, u), roll: lerp(a.roll, 0, ux), yaw: lerp(a.yaw, 0, ux) };
+    return { x: lerp(a.x, tx, ux), y: lerp(a.y, ty, ux), z: lerp(a.z, 1105, u), roll: lerp(a.roll, 0, ux), yaw: lerp(a.yaw, 0, ux) };
   }
   if (t < 18.0) { // card full-frame then pull out
     const u = seg(t, 16.0, 18.0);
-    const e = 1 - Math.pow(1 - u, 2.4);
+    const e = eio2(u);
     const b = cardKeys[0];
     return { x: lerp(CX, b.x, e), y: lerp(CY, b.y, e), z: lerp(400, b.z, e), roll: lerp(0, b.roll, e), yaw: 0 };
   }
@@ -280,7 +280,7 @@ window.render = function (t, frame = 0) {
     c.roll += 3 * eic(seg(t, 3.3, 3.75));
     CAMZ = c.z;
     camT($('spw'), c);
-    place($('stars'), { x: 0, y: 0, z: -900, s: 1.05, rz: t * .6 });
+    place($('stars'), { x: 0, y: 0, z: -900, s: 2.1, rz: t * .6 });
     place($('moon'), { x: 520, y: -60, z: -420, rz: -8 + t * 1.2 });
     const y1 = $('y1969');
     place(y1, { x: -40, y: -60, z: 40 });
@@ -302,7 +302,7 @@ window.render = function (t, frame = 0) {
     CAMZ = cam.z;
     camT($('sw'), cam);
     place($('bgplane'), { x: cam.x * .55, y: cam.y * .55, z: -700 });
-    place($('sil'), { x: -100 + (t < 16 ? 0 : 99999), y: 330, z: -450, op: t < 16 ? .9 : 0 });
+    place($('sil'), { x: -100, s: 1.7, y: 420, z: -450, op: t < 16 ? .9 : 0 });
 
     // ---------- AGC ----------
     const agcIn = seg(t, 3.75, 4.75);
@@ -336,7 +336,7 @@ window.render = function (t, frame = 0) {
     const kbIn = seg(t, 5.95, 6.5);
     let kx = lerp(420, 300, eoq(kbIn)), ky = -80, kz = 60, ks = 1;
     const kbBack = eio(seg(t, 9.95, 10.5)) * (1 - toComp);
-    kx = lerp(kx, AGCC.x, toComp); ky = lerp(ky, AGCC.y + 300, toComp); kz = lerp(kz - 220 * kbBack, 20, toComp); ks = lerp(1, .9, toComp);
+    kx = lerp(kx, AGCC.x, toComp); ky = lerp(ky, AGCC.y + 400, toComp); kz = lerp(kz - 220 * kbBack, 20, toComp); ks = lerp(1, .9, toComp);
     $('stKBul').style.transform = `scaleX(${eoq(seg(t, 6.25, 6.7)).toFixed(3)})`;
     // weight chip
     const kgIn = seg(t, 7.45, 7.95);
@@ -359,7 +359,7 @@ window.render = function (t, frame = 0) {
     letters($('phoneLabel'), t, 10.45, .45, .022, seg(t, 12.0, 12.4));
     const gbIn = seg(t, 10.75, 11.2);
     let gx = lerp(1260, 1180, eoq(gbIn)), gy = -60;
-    gx = lerp(gx, PHC.x, toComp); gy = lerp(gy, PHC.y + 300, toComp);
+    gx = lerp(gx, PHC.x, toComp); gy = lerp(gy, PHC.y + 400, toComp);
     place($('stGB'), { x: gx, y: gy, z: lerp(60, 20, toComp), s: lerp(1, .9, toComp), op: (t > 16.05 ? 0 : cl(gbIn * 2.5)), blur: (1 - eoq(gbIn)) * 14 + eio(seg(t, 14.9, 15.5)) * 10 });
     const cnt = eoc(seg(t, 10.85, 11.9));
     $('gbNum').textContent = Math.max(1, Math.round(cnt * 8));
@@ -445,7 +445,7 @@ window.render = function (t, frame = 0) {
   // studio dims behind the final text
   if (!inSpace) {
     const d = eio(seg(t, 26.4, 27.3));
-    $('sw').style.opacity = (1 - d * .72).toFixed(3);
+    $('studio').style.opacity = (1 - d * .72).toFixed(3);
   }
   // display fill for the push-through + white flash on the whip
   const df = t < 16 ? eic(seg(t, 15.55, 16.0)) : 1 - eoc(seg(t, 16.0, 16.4));

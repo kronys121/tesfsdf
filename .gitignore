@@ -4,3 +4,4 @@ motion-test/stills2/
 motion-test/*.jpg
 motion-test/*.png
 node_modules/
+motion-test/stills*/
